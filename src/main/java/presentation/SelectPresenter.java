@@ -1,6 +1,7 @@
 package presentation;
 
 import data.abstraction.DataUpdatedListener;
+import data.constants.Paths;
 import data.contracts.SelectContract;
 import domain.logic.Controller;
 
@@ -14,8 +15,8 @@ public class SelectPresenter implements SelectContract.Presenter {
         this.view = view;
         this.model = model;
         initListeners();
-        view.setModelList(model.loadModelList("./src/main/java/domain/models"));
-        view.setDataList(model.loadDataList("./src/main/resources/data"));
+        view.setModelList(model.loadModelList(Paths.PATH_TO_MODELS));
+        view.setDataList(model.loadDataList(Paths.PATH_TO_RESOURCES_DATA));
     }
 
     @Override
@@ -24,10 +25,10 @@ public class SelectPresenter implements SelectContract.Presenter {
             try {
                 if (view.getSelectedModel() != null && view.getSelectedData() != null) {
                     controller = new Controller(
-                            "domain.models." + view.getSelectedModel().replace(".java", "")
+                            Paths.MODELS_DIRECTORY + "." + view.getSelectedModel().replace(".java", "")
                     );
                     controller.readDataFrom(
-                            "./src/main/resources/data/" + view.getSelectedData()
+                            Paths.PATH_TO_RESOURCES_DATA + "/" + view.getSelectedData()
                     );
                     controller.runModel();
                     dataUpdatedListener.updateData();

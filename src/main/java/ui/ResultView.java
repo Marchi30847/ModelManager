@@ -37,31 +37,22 @@ public class ResultView extends JPanel implements ResultContract.View {
     private void configureResultTable() {
         resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        // Запрещаем редактирование таблицы
         resultTable.setDefaultEditor(Object.class, null);
+        resultTable.getTableHeader().setReorderingAllowed(false);
 
-        // Используем NumberFormat для форматирования чисел с разделителями
-        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-        rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-        resultTable.setDefaultRenderer(Object.class, rightRenderer);
+        resultTable.setRowHeight(35);
 
-        // Включаем поддержку зебровых строк
-        resultTable.setAutoCreateRowSorter(true); // Включаем сортировку
-
-        // Для зебрового стиля можно использовать
         resultTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-                // Чередование цвета фона строк (зебровый стиль)
                 if (row % 2 == 0) {
-                    component.setBackground(new Color(240, 240, 240));  // Светлый цвет для четных строк
+                    component.setBackground(new Color(240, 240, 240));
                 } else {
-                    component.setBackground(new Color(220, 220, 220));  // Темный цвет для нечетных строк
+                    component.setBackground(new Color(220, 220, 220));
                 }
 
-                // Если строка выбрана, меняем цвет фона
                 if (isSelected) {
                     component.setBackground(table.getSelectionBackground());
                 }
@@ -72,9 +63,9 @@ public class ResultView extends JPanel implements ResultContract.View {
     }
 
     private void configureButtonPanel() {
-        buttonPanel.setLayout(new BorderLayout());
-        buttonPanel.add(runScriptButton, BorderLayout.WEST);
-        buttonPanel.add(createScriptButton, BorderLayout.EAST);
+        buttonPanel.setLayout(new GridLayout(1, 2, 10, 0));
+        buttonPanel.add(runScriptButton);
+        buttonPanel.add(createScriptButton);
     }
 
     private void configureRunScriptButton() {

@@ -1,5 +1,7 @@
 package data.contracts;
 
+import domain.logic.Controller;
+
 import java.awt.event.ActionListener;
 
 public interface ResultContract {
@@ -12,6 +14,8 @@ public interface ResultContract {
     interface Presenter {
         void initListeners();
         void updateResultTable(String tsv);
+        Controller getController();
+        void setController(Controller controller);
     }
 
     interface Model {

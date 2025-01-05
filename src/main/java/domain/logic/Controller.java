@@ -3,14 +3,14 @@ package domain.logic;
 import data.abstraction.Model;
 import data.annotations.Bind;
 
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Controller {
     private final Model model;
@@ -47,7 +47,7 @@ public class Controller {
             Arrays.stream(model.getClass().getDeclaredFields())
                     .peek(field -> field.setAccessible(true))
                     .filter(field -> field.isAnnotationPresent(Bind.class))
-                    .forEach(field -> fillFieldWithData(field, data.get("YEARS").length, data));
+                    .forEach(field -> fillFieldWithData(field, data.get("LATA").length, data));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -77,7 +77,7 @@ public class Controller {
                         data.get(field.getName())[data.get(field.getName()).length - 1]
                 );
 
-                if (field.getName().equals("YEARS")) {
+                if (field.getName().equals("LATA")) {
                     int[] intValues = Arrays.stream(values)
                             .mapToInt(value -> (int) value)
                             .toArray();
@@ -97,10 +97,49 @@ public class Controller {
     }
 
     public Controller runScriptFromFile(String fName) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fName));
+            StringBuilder script = new StringBuilder();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                script.append(line).append("\n");
+            }
+            runScript(script.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return this;
     }
 
     public Controller runScript(String script) {
+        Binding binding = new Binding();
+
+        List<String> boundFieldNames = Arrays.stream(model.getClass().getDeclaredFields())
+                .filter(field -> field.isAnnotationPresent(Bind.class))
+                .peek(field -> field.setAccessible(true))
+                .peek(field -> {
+                    try {
+                        binding.setVariable(field.getName(), field.get(model));
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .map(Field::getName)
+                .toList();
+
+        scriptVariables.forEach(binding::setVariable);
+
+        GroovyShell shell = new GroovyShell(binding);
+        shell.evaluate(script);
+
+        Arrays.stream(binding.getVariables().entrySet().toArray())
+                .map(entry -> (Map.Entry<String, Object>) entry)
+                .filter(entry -> !(entry.getKey().length() < 2) && !(entry.getKey().matches("[a-z]")))
+                .filter(entry -> !boundFieldNames.contains(entry.getKey()))
+                .forEach(entry -> scriptVariables.put(entry.getKey(), (double[]) entry.getValue()));
+
         return this;
     }
 
@@ -142,7 +181,10 @@ public class Controller {
 
     private String formatArrayValues(double[] array) {
         return Arrays.stream(array)
-                .mapToObj(value -> String.format("%.2f", value).replace(",", "."))
+                .mapToObj(value -> String.format("%.2f", value)
+                        .replace(",", ".")
+                        .replaceAll("\\.*0+$", "") //todo
+                )
                 .reduce((v1, v2) -> v1 + "\t" + v2)
                 .orElse("");
     }

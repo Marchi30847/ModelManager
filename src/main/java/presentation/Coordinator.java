@@ -17,6 +17,7 @@ public class Coordinator {
     private void setupInteractions() {
         selectPresenter.setDataUpdatedListener(() -> {
             String tsv = selectPresenter.getController().getResultsAsTsv();
+            resultPresenter.setController(selectPresenter.getController());
             resultPresenter.updateResultTable(tsv);
         });
     }

@@ -27,7 +27,7 @@ public class MainView {
 
     private void configureFrame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(1920, 1080);
         frame.setLayout(new BorderLayout());
         frame.setTitle("Modeling Environment");
         frame.setVisible(true);
@@ -37,8 +37,6 @@ public class MainView {
         splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setLeftComponent(selectView);
         splitPane.setRightComponent(resultView);
-        splitPane.setDividerLocation(250);
-        splitPane.setResizeWeight(0.25);
     }
 
     private void createCoordinator() {
