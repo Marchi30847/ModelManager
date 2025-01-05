@@ -1,0 +1,7 @@
+LATA	                2015	2016	2017	2018	2019
+twElectricityGrowth     1.02	1.03	1.04
+twGasGrowth         	1.01	1.02
+electricityUsage    	100000
+gasUsage            	50000
+renewablesUsage     	20000
+twRenewablesGrowth      1.01     1.02

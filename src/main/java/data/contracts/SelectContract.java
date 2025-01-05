@@ -1,6 +1,6 @@
 package data.contracts;
 
-import data.abstraction.DataUpdatedListener;
+import data.abstraction.AnotherDataChosenListener;
 import domain.logic.Controller;
 
 import java.awt.event.ActionListener;
@@ -18,7 +18,7 @@ public interface SelectContract {
 
     interface Presenter {
         void initListeners();
-        void setDataUpdatedListener(DataUpdatedListener dataUpdatedListener);
+        void setDataUpdatedListener(AnotherDataChosenListener anotherDataChosenListener);
         Controller getController();
         void setController(Controller controller);
     }

@@ -1,0 +1,7 @@
+LATA                      2015     2016     2017     2018     2019
+twTourismGrowth           1.05
+twTourismRevenueGrowth    1.1
+touristArrivals           1000000
+tourismRevenue            5000000
+marketingExpenses         500000
+twMarketingExpensesGrowth 1.01

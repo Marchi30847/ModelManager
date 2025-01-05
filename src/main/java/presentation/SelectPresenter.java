@@ -1,6 +1,6 @@
 package presentation;
 
-import data.abstraction.DataUpdatedListener;
+import data.abstraction.AnotherDataChosenListener;
 import data.constants.Paths;
 import data.contracts.SelectContract;
 import domain.logic.Controller;
@@ -9,7 +9,7 @@ public class SelectPresenter implements SelectContract.Presenter {
     private final SelectContract.View view;
     private final SelectContract.Model model;
     private Controller controller;
-    private DataUpdatedListener dataUpdatedListener;
+    private AnotherDataChosenListener anotherDataChosenListener;
 
     public SelectPresenter(SelectContract.View view, SelectContract.Model model) {
         this.view = view;
@@ -31,7 +31,7 @@ public class SelectPresenter implements SelectContract.Presenter {
                             Paths.PATH_TO_RESOURCES_DATA + "/" + view.getSelectedData()
                     );
                     controller.runModel();
-                    dataUpdatedListener.updateData();
+                    anotherDataChosenListener.updateData();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -40,8 +40,8 @@ public class SelectPresenter implements SelectContract.Presenter {
     }
 
     @Override
-    public void setDataUpdatedListener(DataUpdatedListener dataUpdatedListener) {
-        this.dataUpdatedListener = dataUpdatedListener;
+    public void setDataUpdatedListener(AnotherDataChosenListener anotherDataChosenListener) {
+        this.anotherDataChosenListener = anotherDataChosenListener;
     }
 
     @Override

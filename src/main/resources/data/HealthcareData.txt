@@ -1,0 +1,6 @@
+LATA	                2015	2016	2017	2018	2019
+twPatientGrowth	        1.02	1.03    1.04
+twCostPerPatientGrowth	1.05    1.07
+patientCount        	50000
+costPerPatient      	1000
+governmentSpending  	45000000

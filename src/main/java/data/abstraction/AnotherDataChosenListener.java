@@ -1,5 +1,5 @@
 package data.abstraction;
 
-public interface DataUpdatedListener {
+public interface AnotherDataChosenListener {
     void updateData();
 }

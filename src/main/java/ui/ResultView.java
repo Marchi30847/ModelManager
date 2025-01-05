@@ -71,6 +71,8 @@ public class ResultView extends JPanel implements ResultContract.View {
 
                 if (column > 0) {
                     ((JLabel) component).setHorizontalAlignment(SwingConstants.RIGHT);
+                } else {
+                    ((JLabel) component).setHorizontalAlignment(SwingConstants.LEFT);
                 }
 
 
@@ -154,13 +156,22 @@ public class ResultView extends JPanel implements ResultContract.View {
         JDialog dialog = new JDialog();
         dialog.setTitle("Create a new script");
         dialog.setModal(true);
-        dialog.setSize(new Dimension(400, 200));
+        dialog.setSize(new Dimension(400, 300));
         dialog.setLayout(new BorderLayout());
 
         JTextArea textArea = new JTextArea();
+        Fonts.applyToComponent(
+                textArea,
+                Fonts.BODY_FONT
+        );
         JScrollPane scrollPane = new JScrollPane(textArea);
 
-        JButton runButton = new JButton("Run script");
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(1, 2, 10, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 175, 10, 25));
+        buttonPanel.setPreferredSize(new Dimension(dialog.getSize().width, 60));
+
+        JButton runButton = new JButton("Ok");
         runButton.addActionListener(_ -> {
             if (!textArea.getText().trim().isEmpty()) {
                 String script = textArea.getText();
@@ -168,9 +179,23 @@ public class ResultView extends JPanel implements ResultContract.View {
                 onResult.accept(script);
             }
         });
+        Fonts.applyToComponent(
+                runButton,
+                Fonts.BUTTON_FONT
+        );
+
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(_ -> dialog.dispose());
+        Fonts.applyToComponent(
+                cancelButton,
+                Fonts.BUTTON_FONT
+        );
+
+        buttonPanel.add(runButton);
+        buttonPanel.add(cancelButton);
 
         dialog.add(scrollPane, BorderLayout.CENTER);
-        dialog.add(runButton, BorderLayout.SOUTH);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
 
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
