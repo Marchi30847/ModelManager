@@ -26,7 +26,6 @@ public class EconomyModel implements Model {
 
     @Override
     public void run() {
-        PKB = new double[LL];
         PKB[0] = KI[0] + KS[0] + INV[0] + EKS[0] - IMP[0];
         for (int t = 1; t < LL; t++) {
             KI[t] = twKI[t] * KI[t - 1];

@@ -3,12 +3,17 @@ package data.contracts;
 import domain.logic.Controller;
 
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 public interface ResultContract {
     interface View {
         void addRunScriptButtonListener(ActionListener actionListener);
         void addCreateScriptButtonListener(ActionListener actionListener);
         void displayTableData(String[] columns, String[][] data);
+        Optional<File> createFileChooser();
+        void createDialogWindow(Consumer<String> onResult);
     }
 
     interface Presenter {

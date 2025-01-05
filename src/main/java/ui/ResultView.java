@@ -1,12 +1,18 @@
 package ui;
 
+import data.constants.Paths;
 import data.contracts.ResultContract;
+import data.enums.Fonts;
+import data.enums.Palette;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 public class ResultView extends JPanel implements ResultContract.View {
     private final JScrollPane tableScroll = new JScrollPane();
@@ -42,19 +48,34 @@ public class ResultView extends JPanel implements ResultContract.View {
 
         resultTable.setRowHeight(35);
 
+        resultTable.getTableHeader().setBackground(Palette.HEADER_TABLE_ROW.getColor());
+        Fonts.applyToComponent(
+                resultTable.getTableHeader(),
+                Fonts.BODY_FONT
+        );
+
         resultTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
                 if (row % 2 == 0) {
-                    component.setBackground(new Color(240, 240, 240));
+                    component.setBackground(Palette.EVEN_TABLE_ROW.getColor());
                 } else {
-                    component.setBackground(new Color(220, 220, 220));
+                    component.setBackground(Palette.ODD_TABLE_ROW.getColor());
                 }
 
+                Fonts.applyToComponent(
+                        component,
+                        Fonts.BODY_FONT
+                );
+
                 if (isSelected) {
-                    component.setBackground(table.getSelectionBackground());
+                    component.setBackground(Palette.SELECTED.getColor());
+                    Fonts.applyToComponent(
+                            component,
+                            Fonts.SELECTED_BODY_FONT
+                    );
                 }
 
                 return component;
@@ -64,16 +85,25 @@ public class ResultView extends JPanel implements ResultContract.View {
 
     private void configureButtonPanel() {
         buttonPanel.setLayout(new GridLayout(1, 2, 10, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
         buttonPanel.add(runScriptButton);
         buttonPanel.add(createScriptButton);
     }
 
     private void configureRunScriptButton() {
         runScriptButton.setText("Run script from file");
+        Fonts.applyToComponent(
+                runScriptButton,
+                Fonts.BUTTON_FONT
+        );
     }
 
     private void configureCreateScriptButton() {
         createScriptButton.setText("Create and run ad hoc script");
+        Fonts.applyToComponent(
+                createScriptButton,
+                Fonts.BUTTON_FONT
+        );
     }
 
     private void addAll() {
@@ -95,5 +125,44 @@ public class ResultView extends JPanel implements ResultContract.View {
     public void displayTableData(String[] columns, String[][] data) {
         DefaultTableModel tableModel = new DefaultTableModel(data, columns);
         resultTable.setModel(tableModel);
+    }
+
+    @Override
+    public Optional<File> createFileChooser() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setDialogTitle("Choose a script to run");
+        chooser.setCurrentDirectory(new File(Paths.PATH_TO_SCRIPTS));
+        int result = chooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            return Optional.of(chooser.getSelectedFile());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void createDialogWindow(Consumer<String> onResult) {
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Create a new script");
+        dialog.setModal(true);
+        dialog.setSize(new Dimension(400, 200));
+        dialog.setLayout(new BorderLayout());
+
+        JTextArea textArea = new JTextArea();
+        JScrollPane scrollPane = new JScrollPane(textArea);
+
+        JButton runButton = new JButton("Run");
+        runButton.addActionListener(_ -> {
+            if (!textArea.getText().trim().isEmpty()) {
+                onResult.accept(textArea.getText());
+                dialog.dispose();
+            }
+        });
+
+        dialog.add(scrollPane, BorderLayout.CENTER);
+        dialog.add(runButton, BorderLayout.SOUTH);
+
+        dialog.setVisible(true);
     }
 }

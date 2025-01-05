@@ -1,6 +1,8 @@
 package ui;
 
 import data.contracts.SelectContract;
+import data.enums.Fonts;
+import data.enums.Palette;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +38,12 @@ public class SelectView extends JPanel implements SelectContract.View {
 
     private void configureTitleLabel() {
         titleLabel.setText("Select model and data");
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        titleLabel.setVerticalAlignment(SwingConstants.CENTER);
+        Fonts.applyToComponent(
+                titleLabel,
+                Fonts.HEADER_FONT
+        );
     }
 
     private void configureContentPanel() {
@@ -56,15 +63,29 @@ public class SelectView extends JPanel implements SelectContract.View {
     private void configureModelList() {
         modelList.setModel(new DefaultListModel<>());
         modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        modelList.setSelectionBackground(Palette.SELECTED.getColor());
+        Fonts.applyToComponent(
+                modelList,
+                Fonts.BODY_FONT
+        );
     }
 
     private void configureDataList() {
         dataList.setModel(new DefaultListModel<>());
         dataList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        dataList.setSelectionBackground(Palette.SELECTED.getColor());
+        Fonts.applyToComponent(
+                dataList,
+                Fonts.BODY_FONT
+        );
     }
 
     private void configureRunButton() {
         runButton.setText("Run model");
+        Fonts.applyToComponent(
+                runButton,
+                Fonts.BUTTON_FONT
+        );
     }
 
     private void addAll() {

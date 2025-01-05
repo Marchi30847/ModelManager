@@ -145,7 +145,6 @@ public class Controller {
 
     public String getResultsAsTsv() {
         StringBuilder builder = new StringBuilder();
-
         Arrays.stream(model.getClass().getDeclaredFields())
                 .filter(field -> field.getType().isArray())
                 .peek(field -> field.setAccessible(true))
@@ -155,7 +154,10 @@ public class Controller {
         scriptVariables.forEach((key, values) -> builder
                 .append(key)
                 .append("\t")
-                .append(formatArrayValues(values))
+                .append(formatArrayValues(Arrays.stream(values)
+                        .boxed()
+                        .toArray(Double[]::new)
+                ))
                 .append("\n")
         );
 
@@ -167,9 +169,19 @@ public class Controller {
 
         try {
             if (field.getType() == double[].class) {
-                formatted.append(formatArrayValues((double[]) field.get(model)));
+                double[] values = (double[]) field.get(model);
+                formatted.append(formatArrayValues(
+                        Arrays.stream(values)
+                                .boxed()
+                                .toArray(Double[]::new)
+                ));
             } else if (field.getType() == int[].class) {
-                formatted.append(formatArrayValues((int[]) field.get(model)));
+                int[] values = (int[]) field.get(model);
+                formatted.append(formatArrayValues(
+                        Arrays.stream(values)
+                                .boxed()
+                                .toArray(Integer[]::new)
+                ));
             }
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -179,19 +191,9 @@ public class Controller {
         return formatted.toString();
     }
 
-    private String formatArrayValues(double[] array) {
+    private <T> String formatArrayValues(T[] array) {
         return Arrays.stream(array)
-                .mapToObj(value -> String.format("%.2f", value)
-                        .replace(",", ".")
-                        .replaceAll("\\.*0+$", "") //todo
-                )
-                .reduce((v1, v2) -> v1 + "\t" + v2)
-                .orElse("");
-    }
-
-    private String formatArrayValues(int[] array) {
-        return Arrays.stream(array)
-                .mapToObj(Integer::toString)
+                .map(T::toString)       //Object::toString
                 .reduce((v1, v2) -> v1 + "\t" + v2)
                 .orElse("");
     }
