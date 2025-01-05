@@ -1,9 +1,9 @@
 package ui;
 
-import data.constants.Paths;
+import data.constants.statics.Paths;
 import data.contracts.ResultContract;
-import data.enums.Fonts;
-import data.enums.Palette;
+import data.constants.enums.Fonts;
+import data.constants.enums.Palette;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

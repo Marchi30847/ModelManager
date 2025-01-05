@@ -4,17 +4,17 @@ import data.abstraction.Model;
 import data.annotations.Bind;
 
 public class ConsumptionModel implements Model {
-    @Bind private int LL;                   // Number of years
-    @Bind private int[] LATA;              // Years [from, to]
+    @Bind private int LL;                       // Number of years
+    @Bind private int[] LATA;                   // Years [from, to]
 
     @Bind private double[] twElectricityGrowth; // Growth rate of electricity consumption
-    @Bind private double[] twGasGrowth;        // Growth rate of gas consumption
-    @Bind private double[] electricityUsage;   // Electricity usage
-    @Bind private double[] gasUsage;           // Gas usage
+    @Bind private double[] twGasGrowth;         // Growth rate of gas consumption
+    @Bind private double[] electricityUsage;    // Electricity usage
+    @Bind private double[] gasUsage;            // Gas usage
 
-    @Bind private double[] twRenewablesGrowth; // Growth rate of renewables usage
-    @Bind private double[] renewablesUsage;    // Renewable energy usage
-    @Bind private double[] totalConsumption;   // Total energy consumption
+    @Bind private double[] twRenewablesGrowth;  // Growth rate of renewables usage
+    @Bind private double[] renewablesUsage;     // Renewable energy usage
+    @Bind private double[] totalConsumption;    // Total energy consumption
 
     public ConsumptionModel() { }
 

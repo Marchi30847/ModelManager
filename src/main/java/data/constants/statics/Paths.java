@@ -1,4 +1,4 @@
-package data.constants;
+package data.constants.statics;
 
 public class Paths {
     public static final String PATH_TO_MODELS           = "./src/main/java/data/models";

@@ -1,7 +1,7 @@
 package presentation;
 
 import data.abstraction.AnotherDataChosenListener;
-import data.constants.Paths;
+import data.constants.statics.Paths;
 import data.contracts.SelectContract;
 import domain.logic.Controller;
 

@@ -1,4 +1,4 @@
-package data.enums;
+package data.constants.enums;
 
 import java.awt.*;
 

@@ -4,17 +4,17 @@ import data.abstraction.Model;
 import data.annotations.Bind;
 
 public class HealthcareModel implements Model {
-    @Bind private int LL;                   // Number of years
-    @Bind private int[] LATA;              // Years [from, to]
+    @Bind private int LL;                           // Number of years
+    @Bind private int[] LATA;                       // Years [from, to]
 
-    @Bind private double[] twPatientGrowth; // Growth rate of patient count
-    @Bind private double[] twCostPerPatientGrowth; // Growth rate of cost per patient
-    @Bind private double[] patientCount;    // Number of patients
-    @Bind private double[] costPerPatient;  // Cost per patient
+    @Bind private double[] twPatientGrowth;         // Growth rate of patient count
+    @Bind private double[] twCostPerPatientGrowth;  // Growth rate of cost per patient
+    @Bind private double[] patientCount;            // Number of patients
+    @Bind private double[] costPerPatient;          // Cost per patient
 
-    @Bind private double[] totalHealthcareCost; // Total healthcare cost
-    @Bind private double[] governmentSpending;  // Government spending
-    @Bind private double[] outOfPocketSpending; // Out-of-pocket spending
+    @Bind private double[] totalHealthcareCost;     // Total healthcare cost
+    @Bind private double[] governmentSpending;      // Government spending
+    @Bind private double[] outOfPocketSpending;     // Out-of-pocket spending
 
     public HealthcareModel() { }
 

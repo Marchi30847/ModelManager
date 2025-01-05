@@ -4,17 +4,17 @@ import data.abstraction.Model;
 import data.annotations.Bind;
 
 public class TourismModel implements Model {
-    @Bind private int LL;             // number of years
-    @Bind private int[] LATA;         // years [from, to]
+    @Bind private int LL;                               // number of years
+    @Bind private int[] LATA;                           // years [from, to]
 
-    @Bind private double[] twTourismGrowth;  // growth rate of tourist arrivals
-    @Bind private double[] twTourismRevenueGrowth; // growth rate of tourism revenue
-    @Bind private double[] touristArrivals;  // number of tourist arrivals
-    @Bind private double[] tourismRevenue;   // tourism revenue
-    @Bind private double[] marketingExpenses; // marketing expenses
+    @Bind private double[] twTourismGrowth;             // growth rate of tourist arrivals
+    @Bind private double[] twTourismRevenueGrowth;      // growth rate of tourism revenue
+    @Bind private double[] touristArrivals;             // number of tourist arrivals
+    @Bind private double[] tourismRevenue;              // tourism revenue
+    @Bind private double[] marketingExpenses;           // marketing expenses
 
-    @Bind private double[] twMarketingExpensesGrowth; // growth rate of marketing expenses
-    @Bind private double[] netRevenue;       // calculated net revenue from tourism
+    @Bind private double[] twMarketingExpensesGrowth;   // growth rate of marketing expenses
+    @Bind private double[] netRevenue;                  // calculated net revenue from tourism
 
 
     public TourismModel() { }

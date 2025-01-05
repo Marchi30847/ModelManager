@@ -4,6 +4,7 @@ import data.contracts.SelectContract;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SelectModel implements SelectContract.Model {
@@ -22,11 +23,9 @@ public class SelectModel implements SelectContract.Model {
         List<String> files = new ArrayList<>();
         File directory = new File(directoryPath);
         if (directory.exists() && directory.isDirectory()) {
-            for (File file : directory.listFiles()) {
-                if (file.isFile()) {
-                    files.add(file.getName());
-                }
-            }
+            Arrays.stream(directory.listFiles())
+                    .filter(File::isFile)
+                    .forEach(element -> files.add(element.getName()));
         }
         return files;
     }

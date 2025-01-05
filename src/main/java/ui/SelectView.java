@@ -1,8 +1,8 @@
 package ui;
 
 import data.contracts.SelectContract;
-import data.enums.Fonts;
-import data.enums.Palette;
+import data.constants.enums.Fonts;
+import data.constants.enums.Palette;
 
 import javax.swing.*;
 import java.awt.*;
