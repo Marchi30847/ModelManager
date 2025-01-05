@@ -25,8 +25,12 @@ public class ResultPresenter implements ResultContract.Presenter {
     private void runScriptButtonAction() {
         if (controller != null) {
             view.createFileChooser(selectedFile -> {
-                controller.runScriptFromFile(selectedFile.getAbsolutePath());
-                updateResultTable(controller.getResultsAsTsv());
+                try {
+                    controller.runScriptFromFile(selectedFile.getAbsolutePath());
+                    updateResultTable(controller.getResultsAsTsv());
+                } catch (Exception e) {
+                    view.createErrorWindow(e.getMessage());
+                }
             });
         }
     }
@@ -34,8 +38,12 @@ public class ResultPresenter implements ResultContract.Presenter {
     private void createScriptButtonAction() {
         if (controller != null) {
             view.createDialogWindow(script -> {
-                controller.runScript(script);
-                updateResultTable(controller.getResultsAsTsv());
+                try {
+                    controller.runScript(script);
+                    updateResultTable(controller.getResultsAsTsv());
+                } catch (Exception e) {
+                    view.createErrorWindow(e.getMessage());
+                }
             });
         }
     }

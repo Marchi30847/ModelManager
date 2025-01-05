@@ -13,6 +13,7 @@ public interface ResultContract {
         void displayTableData(String[] columns, String[][] data);
         void createFileChooser(Consumer<File> onResult);
         void createDialogWindow(Consumer<String> onResult);
+        void createErrorWindow(String message);
     }
 
     interface Presenter {

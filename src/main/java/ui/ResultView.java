@@ -69,6 +69,11 @@ public class ResultView extends JPanel implements ResultContract.View {
                         Fonts.BODY_FONT
                 );
 
+                if (column > 0) {
+                    ((JLabel) component).setHorizontalAlignment(SwingConstants.RIGHT);
+                }
+
+
                 if (isSelected) {
                     component.setBackground(Palette.SELECTED.getColor());
                     Fonts.applyToComponent(
@@ -137,7 +142,7 @@ public class ResultView extends JPanel implements ResultContract.View {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setDialogTitle("Choose a script to run");
         chooser.setCurrentDirectory(new File(Paths.PATH_TO_SCRIPTS));
-        int result = chooser.showOpenDialog(this);
+        int result = chooser.showOpenDialog(null);
 
         if (result == JFileChooser.APPROVE_OPTION) {
             consumer.accept(chooser.getSelectedFile());
@@ -155,17 +160,27 @@ public class ResultView extends JPanel implements ResultContract.View {
         JTextArea textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
 
-        JButton runButton = new JButton("Run");
+        JButton runButton = new JButton("Run script");
         runButton.addActionListener(_ -> {
             if (!textArea.getText().trim().isEmpty()) {
-                onResult.accept(textArea.getText());
+                String script = textArea.getText();
                 dialog.dispose();
+                onResult.accept(script);
             }
         });
 
         dialog.add(scrollPane, BorderLayout.CENTER);
         dialog.add(runButton, BorderLayout.SOUTH);
 
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    @Override
+    public void createErrorWindow(String message) {
+        JOptionPane optionPane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE);
+        JDialog dialog = optionPane.createDialog(this, "Incorrect script syntax");
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
 }
