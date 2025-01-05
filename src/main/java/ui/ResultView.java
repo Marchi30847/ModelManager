@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ResultView extends JPanel implements ResultContract.View {
@@ -84,8 +83,13 @@ public class ResultView extends JPanel implements ResultContract.View {
     }
 
     private void configureButtonPanel() {
-        buttonPanel.setLayout(new GridLayout(1, 2, 10, 0));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
+        buttonPanel.setLayout(new GridLayout(1, 2, 25, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(25, 100, 25, 100));
+        buttonPanel.setPreferredSize(new Dimension(
+                buttonPanel.getPreferredSize().width,
+                100
+        ));
+
         buttonPanel.add(runScriptButton);
         buttonPanel.add(createScriptButton);
     }
@@ -128,7 +132,7 @@ public class ResultView extends JPanel implements ResultContract.View {
     }
 
     @Override
-    public Optional<File> createFileChooser() {
+    public void createFileChooser(Consumer<File> consumer) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setDialogTitle("Choose a script to run");
@@ -136,9 +140,8 @@ public class ResultView extends JPanel implements ResultContract.View {
         int result = chooser.showOpenDialog(this);
 
         if (result == JFileChooser.APPROVE_OPTION) {
-            return Optional.of(chooser.getSelectedFile());
+            consumer.accept(chooser.getSelectedFile());
         }
-        return Optional.empty();
     }
 
     @Override

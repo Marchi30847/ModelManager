@@ -3,11 +3,7 @@ package presentation;
 import data.contracts.ResultContract;
 import domain.logic.Controller;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
 import java.util.Arrays;
-import java.util.Optional;
 
 public class ResultPresenter implements ResultContract.Presenter {
     private final ResultContract.View view;
@@ -19,24 +15,23 @@ public class ResultPresenter implements ResultContract.Presenter {
         this.model = model;
         initListeners();
     }
+
     @Override
     public void initListeners() {
-        view.addRunScriptButtonListener   (_ -> runScriptButtonAction());
+        view.addRunScriptButtonListener(_ -> runScriptButtonAction());
         view.addCreateScriptButtonListener(_ -> createScriptButtonAction());
     }
 
     private void runScriptButtonAction() {
         if (controller != null) {
-            view.createFileChooser().ifPresent(
-                    selectedFile -> {
-                        controller.runScriptFromFile(selectedFile.getAbsolutePath());
-                        updateResultTable(controller.getResultsAsTsv());
-                    }
-            );
+            view.createFileChooser(selectedFile -> {
+                controller.runScriptFromFile(selectedFile.getAbsolutePath());
+                updateResultTable(controller.getResultsAsTsv());
+            });
         }
     }
 
-   private void createScriptButtonAction() {
+    private void createScriptButtonAction() {
         if (controller != null) {
             view.createDialogWindow(script -> {
                 controller.runScript(script);

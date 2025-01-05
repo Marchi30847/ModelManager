@@ -17,6 +17,7 @@ public class SelectView extends JPanel implements SelectContract.View {
     private final JScrollPane   dataScroll   = new JScrollPane();
     private final JList<String> modelList    = new JList<>();
     private final JList<String> dataList     = new JList<>();
+    private final JPanel        buttonPanel  = new JPanel();
     private final JButton       runButton    = new JButton();
 
     public SelectView() {
@@ -27,6 +28,7 @@ public class SelectView extends JPanel implements SelectContract.View {
         configureDataScrollPane();
         configureModelList();
         configureDataList();
+        configureButtonPanel();
         configureRunButton();
         addAll();
     }
@@ -80,6 +82,17 @@ public class SelectView extends JPanel implements SelectContract.View {
         );
     }
 
+    private void configureButtonPanel() {
+        buttonPanel.setLayout(new GridLayout(1, 1, 0,0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        buttonPanel.setPreferredSize(new Dimension(
+                buttonPanel.getPreferredSize().width,
+                100
+        ));
+
+        buttonPanel.add(runButton);
+    }
+
     private void configureRunButton() {
         runButton.setText("Run model");
         Fonts.applyToComponent(
@@ -91,7 +104,7 @@ public class SelectView extends JPanel implements SelectContract.View {
     private void addAll() {
         add(titleLabel, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
-        add(runButton, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     @Override
